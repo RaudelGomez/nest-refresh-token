@@ -1,0 +1,15 @@
+version: '3' # Versión de Docker Compose
+
+services:
+  postgres: # Nombre del servicio
+    image: postgres:15 # Imagen de Docker de PostgreSQL (versión 15)
+    container_name: refresh_token # Nombre del contenedor
+    restart: always # Reiniciar siempre el contenedor si se detiene
+    environment:
+      POSTGRES_USER: raudel # Usuario de PostgreSQL
+      POSTGRES_PASSWORD: password123 # Contraseña del usuario
+      POSTGRES_DB: refresh # Nombre de la base de datos a crear
+    ports:
+      - "5433:5432" # Exponer el puerto 5432 para conectarse a PostgreSQL
+
+
