@@ -22,7 +22,7 @@ export class UsersController {
     return this.usersService.refreshToken(refresh_token);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     return this.usersService.findAll();
   }
