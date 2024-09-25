@@ -44,7 +44,7 @@ export class UsersService {
     try {
       const user = await this.jwtService.verifyAsync(refresh_token, {secret: 'refresh'})
       const payload = {sub: user.sub, roles: user.roles}
-      const new_access_token = await this.jwtService.signAsync(payload, {secret: 'access'});
+      const new_access_token = await this.jwtService.signAsync(payload, {secret: 'access', expiresIn: '20s'});
       return {new_access_token};
     } catch (error) {
       throw new BadRequestException('Token invalid!')
@@ -64,7 +64,7 @@ export class UsersService {
 
   private async generateTokens(payload: any): Promise<Tokens>{
     const [access_token, refresh_token] = await Promise.all([
-      this.jwtService.signAsync(payload, {secret: 'access', expiresIn: '1m'}),
+      this.jwtService.signAsync(payload, {secret: 'access', expiresIn: '20s'}),
       this.jwtService.signAsync(payload, {secret: 'refresh', expiresIn: '1d'})
     ])
     return {access_token, refresh_token}

@@ -8,7 +8,7 @@ export class AuthMiddleware implements NestMiddleware {
   
   async use(req: Request, res: Response, next: () => void) {
     const access_token = req.headers.authorization;
-    console.log(access_token);
+    // console.log(access_token);
     if (!access_token) {
       throw new UnauthorizedException('Authorization header missing');
     }
