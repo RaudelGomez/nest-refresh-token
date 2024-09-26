@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { Roles } from 'src/decorator/roles.decorator';
+import { Role } from 'src/enums/roles.enum';
 
 @Controller('users')
 export class UsersController {
@@ -22,12 +24,14 @@ export class UsersController {
     return this.usersService.refreshToken(refresh_token);
   }
 
+  @Roles(Role.USER)
   @Get('all')
   findAll() {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
+  @Roles(Role.ADMIN)
+  @Get('user/:id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }

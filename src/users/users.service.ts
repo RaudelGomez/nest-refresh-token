@@ -5,6 +5,7 @@ import { Role } from 'src/enums/roles.enum';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from 'src/constants/constants';
 
 type Tokens = {
   access_token: string,
@@ -42,9 +43,9 @@ export class UsersService {
 
   async refreshToken(refresh_token: string): Promise<{}>{
     try {
-      const user = await this.jwtService.verifyAsync(refresh_token, {secret: 'refresh'})
+      const user = await this.jwtService.verifyAsync(refresh_token, {secret: jwtConstants.secret_refresh_token})
       const payload = {sub: user.sub, roles: user.roles}
-      const new_access_token = await this.jwtService.signAsync(payload, {secret: 'access', expiresIn: '20s'});
+      const new_access_token = await this.jwtService.signAsync(payload, {secret: jwtConstants.secret_access_token, expiresIn: '20s'});
       return {new_access_token};
     } catch (error) {
       throw new BadRequestException('Token invalid!')
@@ -64,8 +65,8 @@ export class UsersService {
 
   private async generateTokens(payload: any): Promise<Tokens>{
     const [access_token, refresh_token] = await Promise.all([
-      this.jwtService.signAsync(payload, {secret: 'access', expiresIn: '20s'}),
-      this.jwtService.signAsync(payload, {secret: 'refresh', expiresIn: '1d'})
+      this.jwtService.signAsync(payload, {secret: jwtConstants.secret_access_token, expiresIn: '1d'}),
+      this.jwtService.signAsync(payload, {secret: jwtConstants.secret_refresh_token, expiresIn: '1d'})
     ])
     return {access_token, refresh_token}
   }

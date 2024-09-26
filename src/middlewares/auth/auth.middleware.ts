@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
+import { jwtConstants } from 'src/constants/constants';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -16,7 +17,7 @@ export class AuthMiddleware implements NestMiddleware {
     try {
       // Verifica el token y también verifica si ha expirado
       const decoded = await this.jwtService.verifyAsync(access_token, {
-        secret: 'access', // Asegúrate de usar la clave secreta correcta
+        secret: jwtConstants.secret_access_token, // Asegúrate de usar la clave secreta correcta
       });
       console.log(decoded);
       // Si la verificación es correcta, deja continuar la solicitud

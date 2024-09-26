@@ -2,11 +2,16 @@ import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/c
 import { PrismaService } from './services/prisma/prisma.service';
 import { UsersModule } from './users/users.module';
 import { AuthMiddleware } from './middlewares/auth/auth.middleware';
+import { AuthGuard } from './guards/auth/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [UsersModule],
   controllers: [],
-  providers: [PrismaService],
+  providers: [PrismaService, {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+    },],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
