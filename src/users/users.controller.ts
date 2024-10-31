@@ -24,6 +24,7 @@ export class UsersController {
     return this.usersService.refreshToken(refresh_token);
   }
 
+  // Su propósito principal es autorizar. Los guards determinan si una solicitud tiene permiso para acceder a una ruta específica y permiten o deniegan el acceso. Los guards pueden usarse para lógica de autorización, verificación de roles, permisos, etc.
   @Roles(Role.USER)
   @Get('all')
   findAll() {

@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { jwtConstants } from 'src/constants/constants';
 
+// Su propósito principal es autorizar. Los guards determinan si una solicitud tiene permiso para acceder a una ruta específica y permiten o deniegan el acceso. Los guards pueden usarse para lógica de autorización, verificación de roles, permisos, etc.
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly jwtService: JwtService) {}

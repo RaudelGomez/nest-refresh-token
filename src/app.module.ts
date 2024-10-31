@@ -5,6 +5,8 @@ import { AuthMiddleware } from './middlewares/auth/auth.middleware';
 import { AuthGuard } from './guards/auth/auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 
+// Al utilizar { provide: APP_GUARD, useClass: AuthGuard } en el arreglo providers, NestJS registra AuthGuard como un guard global.
+// Esto significa que AuthGuard se aplicará a todas las solicitudes entrantes en la aplicación, sin necesidad de agregar @UseGuards(AuthGuard) en los controladores o métodos individuales.
 @Module({
   imports: [UsersModule],
   controllers: [],
@@ -13,6 +15,8 @@ import { APP_GUARD } from '@nestjs/core';
     useClass: AuthGuard,
     },],
 })
+
+// Los middlewares no tienen acceso a la inyección de dependencias de Nest, lo que los hace adecuados para tareas generales y no específicas de un módulo.
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
